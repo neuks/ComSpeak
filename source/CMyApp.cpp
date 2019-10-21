@@ -130,7 +130,7 @@ int main()
       }
     }
 
-    Sleep(50);
+    Sleep(5);
   }
 
   delete g_pSpeaker;

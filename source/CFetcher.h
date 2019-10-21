@@ -25,6 +25,7 @@
 struct CFetcher
 {
   FILE *m_pFile;
+  bool m_bCheckOnly;
   bool m_bKeepTalking;
   char m_pSideInfo[1024];
   char m_pPath[MAX_PATH];

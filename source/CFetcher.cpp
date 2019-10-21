@@ -24,6 +24,7 @@ CFetcher::CFetcher(char *pPath)
   m_pFile = NULL;
   m_pFilePath[0] = 0;
   m_pSideInfo[0] = 0;
+  m_bCheckOnly = true;
   m_bKeepTalking = false;
   strcpy(m_pPath, pPath);
 }
@@ -92,14 +93,19 @@ int CFetcher::CheckScenario()
       return -1;
     }
 
-    strcpy(m_pFilePath, pFilePath);
-
     if (m_pFilePath[0] != 0)
     {
-      // new file
-      m_pSideInfo[0] = 0;
+      m_bCheckOnly = false;
+      strcpy(m_pFilePath, pFilePath);
 
       return 1;
+    }
+    else
+    {
+      m_bCheckOnly = true;
+      strcpy(m_pFilePath, pFilePath);
+
+      return 0;
     }
   }
 
@@ -196,6 +202,12 @@ int CFetcher::GetLine(char *pMessage, int nSize)
     // record side info
     sprintf(m_pSideInfo, "[%s]", pSideInfo);
     sprintf(pMessage, "Our side is: %s.", pSideInfo);
+
+    if (m_bCheckOnly == true)
+    {
+      fseek(m_pFile, 0, SEEK_END);
+      m_bCheckOnly = false;
+    }
 
     return nLength;
   }
