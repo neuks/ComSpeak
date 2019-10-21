@@ -19,13 +19,17 @@
  *****************************************************************************/
 #include "CMyApp.h"
 
+int g_nRate = 0;
+CSpeaker *g_pSpeaker; // The message speaker
+CFetcher *g_pFetcher;
+
 int main()
 {
   char pPath[MAX_PATH];
 
   CoInitialize(NULL);
 
-  printf("ComSpeak Version 1.0 - CMANO Log Message Speaker\n\n");
+  printf("ComSpeak Version 1.0.1 - CMANO Log Message Speaker\n\n");
   printf("Copyright (C) 2019, Martin Tang\n");
   printf("ComSpeak comes with ABSOLUTELY NO WARRANTY; \n");
   printf("This is free software,and you are welcome to\n");
@@ -34,6 +38,8 @@ int main()
   printf("* Usage:\n");
   printf("   'N' - Skip current message\n");
   printf("   'Q' - Quit the applciation\n\n");
+  printf("   'F' - Speed up the speaker\n\n");
+  printf("   'S' - Slow down the speaker\n\n");
 
   GetModuleFileName(NULL, pPath, MAX_PATH);
   PathRemoveFileSpec(pPath);
@@ -44,6 +50,8 @@ int main()
   g_pFetcher = new CFetcher(pPath);
 
   g_pSpeaker->SetRate(-1);
+
+  bool bKeyPushed = false;
 
   while (true)
   {
@@ -62,11 +70,37 @@ int main()
       // control key detection
       if (GetKeyState('N') & 0x8000)
       {
-        g_pSpeaker->Skip();
+        if (bKeyPushed == false)
+        {
+          g_pSpeaker->Skip();
+        }
+        bKeyPushed = true;
+      }
+      else if (GetKeyState('F') & 0x8000)
+      {
+        if (bKeyPushed == false)
+        {
+          if (g_nRate < 9) g_nRate++;
+          g_pSpeaker->SetRate(g_nRate);
+        }
+        bKeyPushed = true;
+      }
+      else if (GetKeyState('S') & 0x8000)
+      {
+        if (bKeyPushed == false)
+        {
+          if (g_nRate > -9) g_nRate--;
+          g_pSpeaker->SetRate(g_nRate);
+        }
+        bKeyPushed = true;
       }
       else if (GetKeyState('Q') & 0x8000)
       {
         break;
+      }
+      else
+      {
+        bKeyPushed = false;
       }
     }
 
@@ -96,7 +130,7 @@ int main()
       }
     }
 
-    Sleep(10);
+    Sleep(50);
   }
 
   delete g_pSpeaker;

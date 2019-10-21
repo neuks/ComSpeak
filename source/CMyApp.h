@@ -24,8 +24,4 @@
 #include "CSpeaker.h"
 #include "CFetcher.h"
 
-CSpeaker *g_pSpeaker; // The message speaker
-CFetcher *g_pFetcher;
-
-
 #endif
