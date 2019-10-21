@@ -134,8 +134,8 @@ int CFetcher::GetLine(char *pMessage, int nSize)
   }
 
   // parsing input
-  int nLength = 0;
   bool bKeep = true;
+  int nLength = 0, nKeep = 0;
   for (int i = 0; i < strlen(pLine); i++)
   {
     if (!strncmp(pLine + i, "nbsp;", 5))
@@ -148,7 +148,7 @@ int CFetcher::GetLine(char *pMessage, int nSize)
         ((pLine[i] >= '0') && (pLine[i] <= '9')))
     {
       // copy words
-      if (bKeep)
+      if (bKeep && !nKeep)
       {
         if ((pLine[i] == 'n') && (pLine[i + 1] == 'm'))
         {
@@ -187,11 +187,17 @@ int CFetcher::GetLine(char *pMessage, int nSize)
         break;
 
       case '(':
-        bKeep = false;
+        if (bKeep)
+        {
+          nKeep--;
+        }
         break;
 
       case ')':
-        bKeep = true;
+        if (bKeep)
+        {
+          nKeep++;
+        }
         break;
 
       case '[':
@@ -206,11 +212,11 @@ int CFetcher::GetLine(char *pMessage, int nSize)
       case ':':
       case ' ':
         // keep ordinary signs
-        if (bKeep) pParsed[nLength++] = pLine[i];
+        if (bKeep && !nKeep) pParsed[nLength++] = pLine[i];
         break;
 
       case '.':
-        if (bKeep)
+        if (bKeep && !nKeep)
         {
           if ((pLine[i - 1] >= '0') && (pLine[i - 1] <= '9'))
           {
@@ -228,7 +234,7 @@ int CFetcher::GetLine(char *pMessage, int nSize)
       case ',':
       case '!':
       case ';':
-        if (bKeep)
+        if (bKeep && !nKeep)
         {
           // adjust for smooth speaking of sentences
           pParsed[nLength++] = pLine[i];
