@@ -148,7 +148,32 @@ int CFetcher::GetLine(char *pMessage, int nSize)
         ((pLine[i] >= '0') && (pLine[i] <= '9')))
     {
       // copy words
-      if (bKeep) pParsed[nLength++] = pLine[i];
+      if (bKeep)
+      {
+        if ((pLine[i] == 'n') && (pLine[i + 1] == 'm'))
+        {
+          i += 2;
+          pParsed[nLength++] = ' ';
+          pParsed[nLength++] = 'n';
+          pParsed[nLength++] = 'a';
+          pParsed[nLength++] = 'u';
+          pParsed[nLength++] = 't';
+          pParsed[nLength++] = 'i';
+          pParsed[nLength++] = 'c';
+          pParsed[nLength++] = ' ';
+          pParsed[nLength++] = 'm';
+          pParsed[nLength++] = 'i';
+          pParsed[nLength++] = 'l';
+          pParsed[nLength++] = 'e';
+          pParsed[nLength++] = 's';
+          pParsed[nLength++] = '.';
+          pParsed[nLength++] = ' ';
+        }
+        else
+        {
+          pParsed[nLength++] = pLine[i];
+        }
+      }
     }
     else switch (pLine[i])
     {
@@ -161,12 +186,18 @@ int CFetcher::GetLine(char *pMessage, int nSize)
         bKeep = true;
         break;
 
-      case '-':
-      case '+':
+      case '(':
+        bKeep = false;
+        break;
+
+      case ')':
+        bKeep = true;
+        break;
+
       case '[':
       case ']':
-      case '(':
-      case ')':
+      case '-':
+      case '+':
       case '\'':
       case '\\':
       case '/':
@@ -178,8 +209,23 @@ int CFetcher::GetLine(char *pMessage, int nSize)
         if (bKeep) pParsed[nLength++] = pLine[i];
         break;
 
-      case ',':
       case '.':
+        if (bKeep)
+        {
+          if ((pLine[i - 1] >= '0') && (pLine[i - 1] <= '9'))
+          {
+            pParsed[nLength++] = ' ';
+            pParsed[nLength++] = 'p';
+            pParsed[nLength++] = 'o';
+            pParsed[nLength++] = 'i';
+            pParsed[nLength++] = 'n';
+            pParsed[nLength++] = 't';
+            pParsed[nLength++] = ' ';
+            i++;
+          }
+        }
+
+      case ',':
       case '!':
       case ';':
         if (bKeep)
@@ -205,7 +251,7 @@ int CFetcher::GetLine(char *pMessage, int nSize)
 
     if (m_bCheckOnly == true)
     {
-      fseek(m_pFile, 0, SEEK_END);
+      //fseek(m_pFile, 0, SEEK_END);
       m_bCheckOnly = false;
     }
 

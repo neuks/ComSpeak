@@ -37,9 +37,10 @@ int main()
   printf("* Install: Put this in your CMANO directory.\n");
   printf("* Usage:\n");
   printf("   'N' - Skip current message\n");
-  printf("   'Q' - Quit the applciation\n\n");
-  printf("   'F' - Speed up the speaker\n\n");
-  printf("   'S' - Slow down the speaker\n\n");
+  printf("   'Q' - Quit the applciation\n");
+  printf("   'F' - Speed up the speaker\n");
+  printf("   'S' - Slow down the speaker\n");
+  printf("   'L' - Jump to last line\n\n");
 
   GetModuleFileName(NULL, pPath, MAX_PATH);
   PathRemoveFileSpec(pPath);
@@ -91,6 +92,15 @@ int main()
         {
           if (g_nRate > -9) g_nRate--;
           g_pSpeaker->SetRate(g_nRate);
+        }
+        bKeyPushed = true;
+      }
+      else if (GetKeyState('L') & 0x8000)
+      {
+        if (bKeyPushed == false)
+        {
+          fseek(g_pFetcher->m_pFile, 0, SEEK_END);
+          g_pSpeaker->SetPriorityNormal();
         }
         bKeyPushed = true;
       }
