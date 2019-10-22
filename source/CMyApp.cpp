@@ -19,6 +19,7 @@
  *****************************************************************************/
 #include "CMyApp.h"
 
+bool g_bInputLock = false;
 int g_nRate = 0;
 CSpeaker *g_pSpeaker; // The message speaker
 CFetcher *g_pFetcher;
@@ -41,6 +42,7 @@ int main()
   printf("   'F' - Speed up the speaker\n");
   printf("   'S' - Slow down the speaker\n");
   printf("   'L' - Jump to last line\n\n");
+  printf("  F12' - Toggle input lock\n\n");
 
   GetModuleFileName(NULL, pPath, MAX_PATH);
   PathRemoveFileSpec(pPath);
@@ -69,7 +71,19 @@ int main()
     else
     {
       // control key detection
-      if (GetKeyState('N') & 0x8000)
+      if (GetKeyState(VK_F12) & 0x8000)
+      {
+        if (bKeyPushed == false)
+        {
+          g_bInputLock = !g_bInputLock;
+        }
+        bKeyPushed = true;
+      }
+      else if (g_bInputLock == true)
+      {
+        bKeyPushed = false;
+      }
+      else if (GetKeyState('N') & 0x8000)
       {
         if (bKeyPushed == false)
         {
