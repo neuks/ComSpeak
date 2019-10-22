@@ -19,7 +19,12 @@ it with a shortcut icon or such, so that it would automatically detect
 where it resides and position to the relative '\Logs' directory for
 searching the logs.
 
-To skip a message, press 'N' key, to quit the application, press 'Q' key.
+To skip a message, press 'N' key, to quit the application, press 'Q' key,
+to make speech faster press 'F' key, to make it slower press the 'S' key,
+to jump to the end press the 'L'key.
+
+You can press the key while in game, you can ignore the console app and
+leave it in the background.
 
 ## How To Build
 You will just need an updated version of MinGW, simply type 'make' then
