@@ -47,7 +47,8 @@ LDFLAGS=
 EXFLAGS=
 
 # Projects
-OBJECT1=source\StdAfx.o \
+OBJECT1=resource\resource.o \
+				source\StdAfx.o \
 				source\CSpeaker.o \
 				source\CFetcher.o \
 				source\CMyApp.o
@@ -111,7 +112,7 @@ clean:
 
 %.o : %.rc
 	@echo [RC] $<
-	@$(RC) $(RCFLAGS) -o $@
+	@$(RC) $(RCFLAGS) $< $@
 
 %.c : %.l
 	@echo [FL] $<
