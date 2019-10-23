@@ -23,6 +23,10 @@ To skip a message, press 'N' key, to quit the application, press 'Q' key,
 to make speech faster press 'F' key, to make it slower press the 'S' key,
 to jump to the end press the 'L'key.
 
+And in v1.0.2, you can also toggle the input key lock by pressing 'F12',
+which is useful when you are leaving the game running behind and doing
+other work, while awaiting the events to occur.
+
 You can press the key while in game, you can ignore the console app and
 leave it in the background.
 

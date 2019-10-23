@@ -30,7 +30,7 @@ int main()
 
   CoInitialize(NULL);
 
-  printf("ComSpeak Version 1.0.1 - CMANO Log Message Speaker\n\n");
+  printf("ComSpeak Version 1.0.2 - CMANO Log Message Speaker\n\n");
   printf("Copyright (C) 2019, Martin Tang\n");
   printf("ComSpeak comes with ABSOLUTELY NO WARRANTY; \n");
   printf("This is free software,and you are welcome to\n");
@@ -41,7 +41,7 @@ int main()
   printf("   'Q' - Quit the applciation\n");
   printf("   'F' - Speed up the speaker\n");
   printf("   'S' - Slow down the speaker\n");
-  printf("   'L' - Jump to last line\n\n");
+  printf("   'L' - Jump to last line\n");
   printf("  F12' - Toggle input lock\n\n");
 
   GetModuleFileName(NULL, pPath, MAX_PATH);
