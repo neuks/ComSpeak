@@ -186,6 +186,8 @@ int CFetcher::GetLine(char *pMessage, int nSize)
         bKeep = true;
         break;
 
+      case '(':
+      case ')':
       case '[':
       case ']':
       case '-':
