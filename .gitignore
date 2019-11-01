@@ -3,3 +3,4 @@ tags
 *.dep
 *.exe
 *.log
+Logs/
