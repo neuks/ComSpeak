@@ -30,6 +30,13 @@ other work, while awaiting the events to occur.
 You can press the key while in game, you can ignore the console app and
 leave it in the background.
 
+In the latest release > 1.0.3, the text contents has been fully filtered
+with new methods, all texts within quotes are filtered out, so that the
+voices will be short and accurate.
+
+Now, all the key commands have a audible vocal respond, so that the states
+won't be misunderstand.
+
 ## How To Build
 You will just need an updated version of MinGW, simply type 'make' then
 it will be automatically done.

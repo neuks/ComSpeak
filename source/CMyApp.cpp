@@ -30,8 +30,8 @@ int main()
 
   CoInitialize(NULL);
 
-  printf("ComSpeak Version 1.0.2 - CMANO Log Message Speaker\n\n");
-  printf("Copyright (C) 2019, Martin Tang\n");
+  printf("ComSpeak Version 1.0.3 - CMANO Log Message Speaker\n\n");
+  printf("Copyright (C) 2020, Martin Tang\n");
   printf("ComSpeak comes with ABSOLUTELY NO WARRANTY; \n");
   printf("This is free software,and you are welcome to\n");
   printf("redistribute it under certain conditions.\n\n");
