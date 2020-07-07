@@ -164,7 +164,7 @@ int main()
       else
       {
         // keep it overwriting
-        printf("% %s\n", pMessage);
+        printf("%% %s\n", pMessage);
         g_pSpeaker->Speak(pMessageW, true);
       }
     }
