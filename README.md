@@ -2,7 +2,7 @@
 CMANO Log Message TTS Speaker
 
 ## Introduction
-ComSpeak is an addon for Command Modern Air Naval Operations (CMANO).
+ComSpeak is an addon for Command Modern Air Naval Operations (CMANO/CMO).
 It constantly checks for updates in CMANO's log message files, and always
 reading the new lines in realtime which make the information massive game
 become more readable with an audiable fun.
