@@ -47,7 +47,7 @@ int main()
   GetModuleFileName(NULL, pPath, MAX_PATH);
   PathRemoveFileSpec(pPath);
   strcat(pPath, "\\Logs");
-  printf("* Starting process logs from: %s\n\n", pPath);
+  printf("* Starting process logs from: %s\n", pPath);
   
   g_pSpeaker = new CSpeaker;
   g_pFetcher = new CFetcher(pPath);
@@ -76,6 +76,17 @@ int main()
         if (bKeyPushed == false)
         {
           g_bInputLock = !g_bInputLock;
+
+          if (g_bInputLock)
+          {
+            printf("* Speaker locked!\n");
+            g_pSpeaker->Speak(L"Speaker locked.", false);
+          }
+          else
+          {
+            printf("* Speaker unlocked!\n");
+            g_pSpeaker->Speak(L"Speaker unlocked.", false);
+          }
         }
         bKeyPushed = true;
       }
@@ -87,6 +98,7 @@ int main()
       {
         if (bKeyPushed == false)
         {
+          g_pSpeaker->Speak(L"Next line!", false);
           g_pSpeaker->Skip();
         }
         bKeyPushed = true;
@@ -95,6 +107,7 @@ int main()
       {
         if (bKeyPushed == false)
         {
+          g_pSpeaker->Speak(L"Faster!", false);
           if (g_nRate < 9) g_nRate++;
           g_pSpeaker->SetRate(g_nRate);
         }
@@ -104,6 +117,7 @@ int main()
       {
         if (bKeyPushed == false)
         {
+          g_pSpeaker->Speak(L"Slower!", false);
           if (g_nRate > -9) g_nRate--;
           g_pSpeaker->SetRate(g_nRate);
         }
@@ -113,6 +127,7 @@ int main()
       {
         if (bKeyPushed == false)
         {
+          g_pSpeaker->Speak(L"Finished!", false);
           fseek(g_pFetcher->m_pFile, 0, SEEK_END);
           g_pSpeaker->SetPriorityNormal();
         }
@@ -143,13 +158,13 @@ int main()
       if (!strncmp(pMessage, "Our side is: ", 13))
       {
         // don't pass important msgs
-        printf("* %s\n\n", pMessage);
+        printf("* %s\n", pMessage);
         g_pSpeaker->Speak(pMessageW, false);
       }
       else
       {
         // keep it overwriting
-        printf("%s\n\n", pMessage);
+        printf("% %s\n", pMessage);
         g_pSpeaker->Speak(pMessageW, true);
       }
     }

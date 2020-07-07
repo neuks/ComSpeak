@@ -93,6 +93,8 @@ int CFetcher::CheckScenario()
       return -1;
     }
 
+    printf("* Reading from log file: %s.\n", pFilePath);
+
     if (m_pFilePath[0] != 0)
     {
       m_bCheckOnly = false;
@@ -133,9 +135,11 @@ int CFetcher::GetLine(char *pMessage, int nSize)
     strcpy(pLine, pParsed);
   }
 
+  //printf("line: %s\n", pLine);
+
   // parsing input
-  bool bKeep = true;
   int nLength = 0;
+  int nRemove = 0;
   for (int i = 0; i < strlen(pLine); i++)
   {
     if (!strncmp(pLine + i, "nbsp;", 5))
@@ -148,7 +152,7 @@ int CFetcher::GetLine(char *pMessage, int nSize)
         ((pLine[i] >= '0') && (pLine[i] <= '9')))
     {
       // copy words
-      if (bKeep)
+      if (nRemove <= 0)
       {
         if ((pLine[i] == 'n') && (pLine[i + 1] == 'm'))
         {
@@ -179,17 +183,39 @@ int CFetcher::GetLine(char *pMessage, int nSize)
     {
       // removing xml tags
       case '<':
-        bKeep = false;
+      case '(':
+        nRemove++;
         break;
 
       case '>':
-        bKeep = true;
+      case ')':
+        nRemove--;
         break;
 
-      case '(':
-      case ')':
       case '[':
+        if (i == 0)
+        {
+          pParsed[nLength++] = pLine[i];
+          nRemove--;
+        }
+        else
+        {
+          nRemove++;
+        }
+        break;
+
       case ']':
+        if (nRemove < 0)
+        {
+          pParsed[nLength++] = pLine[i];
+          nRemove++;
+        }
+        else if (nRemove > 0)
+        {
+          nRemove--;
+        }
+        break;
+
       case '-':
       case '+':
       case '\'':
@@ -198,13 +224,24 @@ int CFetcher::GetLine(char *pMessage, int nSize)
       case '"':
       case '#':
       case ':':
-      case ' ':
         // keep ordinary signs
-        if (bKeep) pParsed[nLength++] = pLine[i];
+        if (nRemove <= 0) pParsed[nLength++] = pLine[i];
+        break;
+
+      case ' ':
+        if ((pLine[i + 1] == '-') &&
+            (pLine[i + 2] == ' '))
+        {
+          nRemove++;
+        }
+        else if (pParsed[nLength - 1] != ' ')
+        {
+          pParsed[nLength++] = pLine[i];
+        }
         break;
 
       case '.':
-        if (bKeep)
+        if (nRemove <= 0)
         {
           if ((pLine[i - 1] >= '0') && (pLine[i - 1] <= '9'))
           {
@@ -222,7 +259,7 @@ int CFetcher::GetLine(char *pMessage, int nSize)
       case ',':
       case '!':
       case ';':
-        if (bKeep)
+        if (nRemove <= 0)
         {
           // adjust for smooth speaking of sentences
           pParsed[nLength++] = pLine[i];
@@ -245,7 +282,7 @@ int CFetcher::GetLine(char *pMessage, int nSize)
 
     if (m_bCheckOnly == true)
     {
-      //fseek(m_pFile, 0, SEEK_END);
+      fseek(m_pFile, 0, SEEK_END);
       m_bCheckOnly = false;
     }
 
@@ -253,6 +290,8 @@ int CFetcher::GetLine(char *pMessage, int nSize)
   }
   else if (m_pSideInfo[0] != 0)
   {
+    //printf("parsed = %s\n", pParsed);
+
     if (pParsed[0] == '[')
     {
       if (!strncmp(pParsed, m_pSideInfo, strlen(m_pSideInfo)))
