@@ -37,13 +37,10 @@ with new methods, all texts within quotes are filtered out, so that the
 voices will be short and accurate.
 
 Now, all the key commands have a audible vocal respond, so that the states
-won't be misunderstand.
+won't be misunderstood.
 
 ## How To Build
 You will just need an updated version of MinGW, simply type 'make' then
 it will be automatically done.
 
-## Contact
-You can contact me by martin AT vaosim.com, for Chinese users, you can join
-my QQ group for interaction: 979541231
 
